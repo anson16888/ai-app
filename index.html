@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="探索最新AI模型、工具和应用 - AI资源导航站">
+    <meta name="keywords" content="AI,人工智能,ChatGPT,Claude,GPT,AI工具,大语言模型">
+    <title>AI Hub - 探索人工智能的未来</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 背景装饰 -->
+    <div class="bg-gradient"></div>
+    <div class="bg-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <div class="brand-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <circle cx="16" cy="16" r="14" fill="url(#brandGrad)"/>
+                        <path d="M16 8V24M8 16H24" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+                        <defs>
+                            <linearGradient id="brandGrad" x1="0" y1="0" x2="32" y2="32">
+                                <stop offset="0%" stop-color="#6366f1"/>
+                                <stop offset="100%" stop-color="#8b5cf6"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span class="brand-text">AI Hub</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#models" class="nav-link"><span class="nav-indicator"></span>模型</a></li>
+                <li><a href="#tools" class="nav-link"><span class="nav-indicator"></span>工具</a></li>
+                <li><a href="#products" class="nav-link"><span class="nav-indicator"></span>作品</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero 区域 -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                2025 AI 资源精选
+            </div>
+            <h1 class="hero-title">
+                <span class="title-line">探索 AI</span>
+                <span class="title-line title-gradient">无限可能</span>
+            </h1>
+            <p class="hero-desc">
+                精选最新的人工智能模型、工具和资源，<br class="hide-mobile">助力你拥抱智能时代
+            </p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-value">6+</div>
+                    <div class="stat-label">主流模型</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-value">8+</div>
+                    <div class="stat-label">实用工具</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">精选产品</div>
+                </div>
+            </div>
+            <div class="hero-actions">
+                <a href="#models" class="btn btn-primary">
+                    <span>开始探索</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M6 10H14M14 10L10 6M14 10L10 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+                <a href="#products" class="btn btn-secondary">
+                    <span>查看作品</span>
+                </a>
+            </div>
+        </div>
+        <div class="hero-scroll">
+            <div class="scroll-indicator"></div>
+        </div>
+    </section>
+
+    <!-- AI 模型展示区 -->
+    <section id="models" class="section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">AI Models</div>
+                <h2 class="section-title">热门 AI 模型</h2>
+                <p class="section-desc">当下最具影响力的人工智能大语言模型</p>
+            </div>
+            <div class="grid models-grid">
+                <!-- GPT-4 -->
+                <div class="card model-card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #10a37f 0%, #1a7f64 100%);">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="3" stroke="white" stroke-width="2"/>
+                                <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="card-badge">热门</div>
+                    </div>
+                    <h3 class="card-title">GPT-4 / GPT-4o</h3>
+                    <p class="card-company">OpenAI</p>
+                    <p class="card-desc">目前最强大的通用大语言模型，支持文本、图像多模态交互，具备卓越的推理和创作能力。</p>
+                    <div class="card-tags">
+                        <span class="tag">多模态</span>
+                        <span class="tag">推理</span>
+                        <span class="tag">编程</span>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-meta">
+                            <span class="meta-icon">★</span>
+                            <span>综合实力最强</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Claude -->
+                <div class="card model-card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #cc785c 0%, #a85a3f 100%);">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 3L15 9L21 10L17 14L18 20L12 17L6 20L7 14L3 10L9 9L12 3Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="card-badge card-badge-purple">推荐</div>
+                    </div>
+                    <h3 class="card-title">Claude 3.5 Sonnet</h3>
+                    <p class="card-company">Anthropic</p>
+                    <p class="card-desc">以安全和长文本处理著称的 AI 模型，擅长复杂分析、长文本写作和编程任务。</p>
+                    <div class="card-tags">
+                        <span class="tag">长文本</span>
+                        <span class="tag">安全</span>
+                        <span class="tag">分析</span>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-meta">
+                            <span class="meta-icon">📄</span>
+                            <span>200K 上下文</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gemini -->
+                <div class="card model-card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #4285f4 0%, #34a853 50%, #fbbc05 100%);">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="8" stroke="white" stroke-width="2"/>
+                                <path d="M12 8v8M8 12h8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="card-title">Gemini 2.0</h3>
+                    <p class="card-company">Google</p>
+                    <p class="card-desc">Google 最新一代多模态 AI 模型，原生支持音频、视频、图像和文本的实时推理。</p>
+                    <div class="card-tags">
+                        <span class="tag">多模态</span>
+                        <span class="tag">实时</span>
+                        <span class="tag">搜索</span>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-meta">
+                            <span class="meta-icon">🎥</span>
+                            <span>视频理解</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DeepSeek -->
+                <div class="card model-card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                                <path d="M13 2L3 14h8l-1 8L20 10h-8l1-8z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="card-badge card-badge-blue">黑马</div>
+                    </div>
+                    <h3 class="card-title">DeepSeek V3</h3>
+                    <p class="card-company">DeepSeek</p>
+                    <p class="card-desc">国产开源大模型之王，在数学、代码和推理任务上表现卓越，API 价格极具竞争力。</p>
+                    <div class="card-tags">
+                        <span class="tag">开源</span>
+                        <span class="tag">数学</span>
+                        <span class="tag">高性价比</span>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-meta">
+                            <span class="meta-icon">💰</span>
+                            <span>超低价格</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Qwen -->
+                <div class="card model-card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #ff6a00 0%, #ee0979 100%);">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="card-title">Qwen 2.5</h3>
+                    <p class="card-company">阿里云</p>
+                    <p class="card-desc">通义千问系列模型，在中文理解和数学能力上表现突出，提供多种尺寸版本供选择。</p>
+                    <div class="card-tags">
+                        <span class="tag">中文</span>
+                        <span class="tag">数学</span>
+                        <span class="tag">开源</span>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-meta">
+                            <span class="meta-icon">🇨🇳</span>
+                            <span>中文优化</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Llama -->
+                <div class="card model-card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #0052cc 0%, #0065ff 100%);">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2"/>
+                                <path d="M12 6v6l4 2" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="card-badge card-badge-gray">开源</div>
+                    </div>
+                    <h3 class="card-title">Llama 3.3</h3>
+                    <p class="card-company">Meta</p>
+                    <p class="card-desc">开源领域的标杆模型，性能强劲，可自由部署和微调，拥有丰富的社区生态。</p>
+                    <div class="card-tags">
+                        <span class="tag">开源</span>
+                        <span class="tag">可部署</span>
+                        <span class="tag">社区</span>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-meta">
+                            <span class="meta-icon">🔓</span>
+                            <span>免费商用</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI 工具展示区 -->
+    <section id="tools" class="section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">AI Tools</div>
+                <h2 class="section-title">实用 AI 工具</h2>
+                <p class="section-desc">提升工作效率的 AI 辅助工具精选</p>
+            </div>
+            <div class="grid tools-grid">
+                <!-- Cursor -->
+                <div class="card tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                                <rect width="40" height="40" rx="10" fill="url(#cursorGrad)"/>
+                                <path d="M12 12l10 4-4 2-2 4-4-10z" fill="white"/>
+                                <defs>
+                                    <linearGradient id="cursorGrad" x1="0" y1="0" x2="40" y2="40">
+                                        <stop offset="0%" stop-color="#6366f1"/>
+                                        <stop offset="100%" stop-color="#8b5cf6"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div class="tool-rating">
+                            <span>★ 4.9</span>
+                        </div>
+                    </div>
+                    <h3 class="tool-title">Cursor</h3>
+                    <p class="tool-category">开发工具</p>
+                    <p class="tool-desc">AI 原生代码编辑器，内置 GPT-4 和 Claude，支持自然语言编程和智能代码补全，彻底改变编程体验。</p>
+                    <div class="tool-features">
+                        <span class="feature-tag">代码补全</span>
+                        <span class="feature-tag">AI 聊天</span>
+                        <span class="feature-tag">多模型</span>
+                    </div>
+                </div>
+
+                <!-- Claude Code -->
+                <div class="card tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                                <rect width="40" height="40" rx="10" fill="url(#claudeCodeGrad)"/>
+                                <path d="M12 20h16M12 14h16M12 26h10" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+                                <defs>
+                                    <linearGradient id="claudeCodeGrad" x1="0" y1="0" x2="40" y2="40">
+                                        <stop offset="0%" stop-color="#cc785c"/>
+                                        <stop offset="100%" stop-color="#a85a3f"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div class="tool-rating">
+                            <span>★ 4.8</span>
+                        </div>
+                    </div>
+                    <h3 class="tool-title">Claude Code</h3>
+                    <p class="tool-category">CLI 工具</p>
+                    <p class="tool-desc">Anthropic 官方命令行工具，直接在终端中使用 AI 进行编程、文件操作和项目管理。</p>
+                    <div class="tool-features">
+                        <span class="feature-tag">终端集成</span>
+                        <span class="feature-tag">文件操作</span>
+                        <span class="feature-tag">快速</span>
+                    </div>
+                </div>
+
+                <!-- Perplexity -->
+                <div class="card tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                                <rect width="40" height="40" rx="10" fill="url(#perplexityGrad)"/>
+                                <circle cx="20" cy="18" r="8" stroke="white" stroke-width="2.5"/>
+                                <path d="M20 26v6M14 30h12" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+                                <defs>
+                                    <linearGradient id="perplexityGrad" x1="0" y1="0" x2="40" y2="40">
+                                        <stop offset="0%" stop-color="#20b2aa"/>
+                                        <stop offset="100%" stop-color="#008080"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div class="tool-rating">
+                            <span>★ 4.7</span>
+                        </div>
+                    </div>
+                    <h3 class="tool-title">Perplexity</h3>
+                    <p class="tool-category">AI 搜索</p>
+                    <p class="tool-desc">下一代 AI 搜索引擎，提供带引用的精准答案，支持实时网络搜索和学术研究。</p>
+                    <div class="tool-features">
+                        <span class="feature-tag">引用来源</span>
+                        <span class="feature-tag">实时搜索</span>
+                        <span class="feature-tag">学术</span>
+                    </div>
+                </div>
+
+                <!-- Notion AI -->
+                <div class="card tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                                <rect width="40" height="40" rx="10" fill="url(#notionGrad)"/>
+                                <path d="M12 12h16v16H12z" stroke="white" stroke-width="2"/>
+                                <path d="M16 18h8M16 22h5" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                                <defs>
+                                    <linearGradient id="notionGrad" x1="0" y1="0" x2="40" y2="40">
+                                        <stop offset="0%" stop-color="#000000"/>
+                                        <stop offset="100%" stop-color="#333333"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div class="tool-rating">
+                            <span>★ 4.6</span>
+                        </div>
+                    </div>
+                    <h3 class="tool-title">Notion AI</h3>
+                    <p class="tool-category">写作助手</p>
+                    <p class="tool-desc">集成在 Notion 中的 AI 写作助手，帮助总结、翻译、扩写和生成内容。</p>
+                    <div class="tool-features">
+                        <span class="feature-tag">写作</span>
+                        <span class="feature-tag">笔记</span>
+                        <span class="feature-tag">协作</span>
+                    </div>
+                </div>
+
+                <!-- v0.dev -->
+                <div class="card tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                                <rect width="40" height="40" rx="10" fill="url(#v0Grad)"/>
+                                <path d="M12 20l6 6 10-10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <defs>
+                                    <linearGradient id="v0Grad" x1="0" y1="0" x2="40" y2="40">
+                                        <stop offset="0%" stop-color="#000000"/>
+                                        <stop offset="100%" stop-color="#666666"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div class="tool-rating">
+                            <span>★ 4.8</span>
+                        </div>
+                    </div>
+                    <h3 class="tool-title">v0.dev</h3>
+                    <p class="tool-category">前端开发</p>
+                    <p class="tool-desc">Vercel 推出的 AI 前端开发工具，通过自然语言快速生成 React 组件和 UI 界面。</p>
+                    <div class="tool-features">
+                        <span class="feature-tag">UI 生成</span>
+                        <span class="feature-tag">React</span>
+                        <span class="feature-tag">Shadcn</span>
+                    </div>
+                </div>
+
+                <!-- Suno -->
+                <div class="card tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                                <rect width="40" height="40" rx="10" fill="url(#sunoGrad)"/>
+                                <circle cx="16" cy="20" r="6" stroke="white" stroke-width="2"/>
+                                <circle cx="24" cy="20" r="6" stroke="white" stroke-width="2"/>
+                                <path d="M16 14v12M24 14v12" stroke="white" stroke-width="2"/>
+                                <defs>
+                                    <linearGradient id="sunoGrad" x1="0" y1="0" x2="40" y2="40">
+                                        <stop offset="0%" stop-color="#ff6b6b"/>
+                                        <stop offset="100%" stop-color="#ee5a6f"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div class="tool-rating">
+                            <span>★ 4.5</span>
+                        </div>
+                    </div>
+                    <h3 class="tool-title">Suno AI</h3>
+                    <p class="tool-category">音乐创作</p>
+                    <p class="tool-desc">AI 音乐生成工具，通过文本描述创作完整的歌曲，包含歌词、人声和旋律。</p>
+                    <div class="tool-features">
+                        <span class="feature-tag">音乐生成</span>
+                        <span class="feature-tag">歌词</span>
+                        <span class="feature-tag">人声</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 个人产品展示区 -->
+    <section id="products" class="section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">My Projects</div>
+                <h2 class="section-title">AI 驱动的作品</h2>
+                <p class="section-desc">使用人工智能技术构建的个人项目</p>
+            </div>
+            <div class="products-showcase">
+                <!-- 产品 1 -->
+                <div class="product-item">
+                    <div class="product-visual">
+                        <div class="product-mockup">
+                            <div class="mockup-header">
+                                <div class="mockup-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                            <div class="mockup-content">
+                                <div class="chat-bubble chat-bubble-left">
+                                    <span>帮我分析这个数据...</span>
+                                </div>
+                                <div class="chat-bubble chat-bubble-right">
+                                    <span>正在分析中...</span>
+                                </div>
+                                <div class="chat-bubble chat-bubble-right">
+                                    <span>根据数据分析，发现以下趋势...</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-glow product-glow-1"></div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-number">01</div>
+                        <h3 class="product-title">AI 智能助手平台</h3>
+                        <p class="product-desc">集成多个 AI 模型的统一对话平台，支持 GPT-4、Claude、DeepSeek 等模型无缝切换，提供完整的用户管理和 Token 统计功能。</p>
+                        <ul class="product-features">
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M16.6667 5L7.5 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                多模型统一接入
+                            </li>
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M16.6667 5L7.5 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Token 消费统计与分析
+                            </li>
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M16.6667 5L7.5 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                对话历史云端同步
+                            </li>
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M16.6667 5L7.5 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                API Key 安全管理
+                            </li>
+                        </ul>
+                        <div class="product-tech">
+                            <span class="tech-pill">Vue 3</span>
+                            <span class="tech-pill">Node.js</span>
+                            <span class="tech-pill">PostgreSQL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 产品 2 -->
+                <div class="product-item product-item-reverse">
+                    <div class="product-visual">
+                        <div class="product-mockup">
+                            <div class="mockup-header">
+                                <div class="mockup-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                            <div class="mockup-content mockup-content-writer">
+                                <div class="writer-title">标题：AI 内容生成器介绍</div>
+                                <div class="writer-lines">
+                                    <div class="writer-line"></div>
+                                    <div class="writer-line"></div>
+                                    <div class="writer-line writer-line-short"></div>
+                                </div>
+                                <div class="writer-actions">
+                                    <span class="writer-btn">优化</span>
+                                    <span class="writer-btn">扩写</span>
+                                    <span class="writer-btn">翻译</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-glow product-glow-2"></div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-number">02</div>
+                        <h3 class="product-title">AI 内容生成器</h3>
+                        <p class="product-desc">基于大语言模型的内容创作工具，支持文章写作、文案优化、代码生成等多种场景，提供丰富的模板和一键优化功能。</p>
+                        <ul class="product-features">
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M16.6667 5L7.5 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                多种内容创作模板
+                            </li>
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M16.6667 5L7.5 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                智能优化与改写
+                            </li>
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M16.6667 5L7.5 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                SEO 优化建议
+                            </li>
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M16.6667 5L7.5 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                批量内容生成
+                            </li>
+                        </ul>
+                        <div class="product-tech">
+                            <span class="tech-pill">React</span>
+                            <span class="tech-pill">Python</span>
+                            <span class="tech-pill">FastAPI</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 产品 3 -->
+                <div class="product-item">
+                    <div class="product-visual">
+                        <div class="product-mockup">
+                            <div class="mockup-header">
+                                <div class="mockup-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                            <div class="mockup-content mockup-content-image">
+                                <div class="image-preview">
+                                    <div class="image-placeholder"></div>
+                                </div>
+                                <div class="image-tools">
+                                    <span class="image-tool">去背景</span>
+                                    <span class="image-tool">超分辨率</span>
+                                    <span class="image-tool">风格化</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-glow product-glow-3"></div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-number">03</div>
+                        <h3 class="product-title">AI 图像工作室</h3>
+                        <p class="product-desc">集成多种 AI 图像模型的一站式处理工具，支持智能抠图、图像超分辨率、风格转换等功能。</p>
+                        <ul class="product-features">
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M16.6667 5L7.5 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                智能抠图与去背景
+                            </li>
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M16.6667 5L7.5 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                AI 图像超分辨率增强
+                            </li>
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M16.6667 5L7.5 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                多种艺术风格滤镜
+                            </li>
+                            <li>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M16.6667 5L7.5 14.1667L3.33334 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                批量图像处理
+                            </li>
+                        </ul>
+                        <div class="product-tech">
+                            <span class="tech-pill">Python</span>
+                            <span class="tech-pill">PyTorch</span>
+                            <span class="tech-pill">Flask</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-brand">
+                <div class="brand-icon">
+                    <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                        <circle cx="16" cy="16" r="14" fill="white"/>
+                        <path d="M16 8V24M8 16H24" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <span class="brand-text">AI Hub</span>
+            </div>
+            <p class="footer-text">探索人工智能的无限可能</p>
+        </div>
+    </footer>
+
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 滚动动画
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card, .product-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // 导航栏滚动效果
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > 100) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+
+            lastScroll = currentScroll;
+        });
+    </script>
+</body>
+</html>
