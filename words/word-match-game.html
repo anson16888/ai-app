@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>趣味单词配对游戏 - PEP英语3-6年级完整版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.95);
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-item span {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .grade-selector, .unit-selector {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .grade-btn, .unit-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .grade-btn:hover, .unit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .grade-btn.active, .unit-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .game-area {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            aspect-ratio: 3/2;
+            background: linear-gradient(145deg, #ffffff 0%, #f0f0f0 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .card.selected {
+            background: linear-gradient(135deg, #ffd93d 0%, #ff9a3c 100%);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .card.matched {
+            background: linear-gradient(135deg, #6BCB77 0%, #4ECCA3 100%);
+            color: white;
+            opacity: 0.7;
+            cursor: default;
+        }
+
+        .card.wrong {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+            color: white;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .card-content {
+            z-index: 1;
+            text-align: center;
+            padding: 8px;
+            word-break: break-word;
+            line-height: 1.3;
+        }
+
+        .card-english {
+            color: #667eea;
+        }
+
+        .card-chinese {
+            color: #764ba2;
+        }
+
+        .card.selected .card-content,
+        .card.matched .card-content {
+            color: white;
+        }
+
+        .message-area {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .message {
+            font-size: 1.3rem;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .message.success {
+            color: #4CAF50;
+        }
+
+        .message.error {
+            color: #f44336;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6BCB77 0%, #4ECCA3 100%);
+            transition: width 0.5s ease;
+            border-radius: 5px;
+        }
+
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ffd93d;
+            animation: fall 3s linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-content h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .modal-content p {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .star {
+            position: absolute;
+            font-size: 30px;
+            animation: starAnim 1s ease-out forwards;
+        }
+
+        @keyframes starAnim {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5) rotate(180deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .selector-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .selector-label {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .game-area {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .card {
+                font-size: 0.9rem;
+            }
+
+            .game-info {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-area {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>趣味单词配对游戏</h1>
+            <p class="subtitle">PEP英语3-6年级完整版 | 点击卡片，将英文单词与中文意思配对！</p>
+        </header>
+
+        <div class="game-info">
+            <div class="info-item">
+                <span>得分: <span id="score">0</span></span>
+            </div>
+            <div class="info-item">
+                <span>连击: <span id="combo">0</span></span>
+            </div>
+            <div class="info-item">
+                <span>进度: <span id="progress-text">0/0</span></span>
+            </div>
+
+            <div class="selector-group">
+                <div class="selector-label">选择年级:</div>
+                <div class="grade-selector">
+                    <button class="grade-btn active" data-grade="3a">三上</button>
+                    <button class="grade-btn" data-grade="3b">三下</button>
+                    <button class="grade-btn" data-grade="4a">四上</button>
+                    <button class="grade-btn" data-grade="4b">四下</button>
+                    <button class="grade-btn" data-grade="5a">五上</button>
+                    <button class="grade-btn" data-grade="5b">五下</button>
+                    <button class="grade-btn" data-grade="6a">六上</button>
+                    <button class="grade-btn" data-grade="6b">六下</button>
+                </div>
+            </div>
+
+            <div class="selector-group">
+                <div class="selector-label">选择单元:</div>
+                <div class="unit-selector" id="unitSelector"></div>
+            </div>
+        </div>
+
+        <div class="message-area">
+            <div class="message" id="message">选择年级和单元，然后点击"开始游戏"！</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+        </div>
+
+        <div class="game-area" id="gameArea"></div>
+
+        <div class="controls">
+            <button class="btn btn-primary" id="startBtn">开始游戏</button>
+            <button class="btn btn-secondary" id="resetBtn">重新开始</button>
+        </div>
+    </div>
+
+    <div class="celebration" id="celebration"></div>
+    <div class="stars" id="stars"></div>
+
+    <div class="modal" id="winModal">
+        <div class="modal-content">
+            <h2>恭喜过关！</h2>
+            <p id="winMessage">你太棒了！</p>
+            <button class="btn btn-primary" id="nextLevelBtn">下一关</button>
+        </div>
+    </div>
+
+    <script>
+        // PEP人教版英语3-6年级完整单词表
+        const wordDatabase = {
+            '3a': { // 三年级上册
+                name: '三年级上册',
+                units: [
+                    // Unit 1: Hello!
+                    [
+                        { en: 'book', zh: '书' },
+                        { en: 'pencil', zh: '铅笔' },
+                        { en: 'ruler', zh: '尺子' },
+                        { en: 'no', zh: '不' },
+                        { en: 'your', zh: '你（们）的' }
+                    ],
+                    // Unit 2: Colours
+                    [
+                        { en: 'black', zh: '黑色' },
+                        { en: 'blue', zh: '蓝色' },
+                        { en: 'green', zh: '绿色' },
+                        { en: 'red', zh: '红色' },
+                        { en: 'yellow', zh: '黄色' }
+                    ],
+                    // Unit 3: Look at me!
+                    [
+                        { en: 'ear', zh: '耳朵' },
+                        { en: 'eye', zh: '眼睛' },
+                        { en: 'face', zh: '脸' },
+                        { en: 'mouth', zh: '嘴' },
+                        { en: 'nose', zh: '鼻子' }
+                    ],
+                    // Unit 4: We love animals
+                    [
+                        { en: 'bird', zh: '鸟' },
+                        { en: 'cat', zh: '猫' },
+                        { en: 'dog', zh: '狗' },
+                        { en: 'monkey', zh: '猴子' },
+                        { en: 'tiger', zh: '老虎' }
+                    ],
+                    // Unit 5: Let's eat!
+                    [
+                        { en: 'egg', zh: '蛋' },
+                        { en: 'fish', zh: '鱼' },
+                        { en: 'rice', zh: '米饭' },
+                        { en: 'juice', zh: '果汁' },
+                        { en: 'milk', zh: '牛奶' }
+                    ],
+                    // Unit 6: Happy birthday!
+                    [
+                        { en: 'eight', zh: '八' },
+                        { en: 'five', zh: '五' },
+                        { en: 'four', zh: '四' },
+                        { en: 'nine', zh: '九' },
+                        { en: 'one', zh: '一' }
+                    ]
+                ]
+            },
+            '3b': { // 三年级下册
+                name: '三年级下册',
+                units: [
+                    // Unit 1: Welcome back to school!
+                    [
+                        { en: 'teacher', zh: '教师' },
+                        { en: 'and', zh: '和；与' },
+                        { en: 'he', zh: '他' },
+                        { en: 'she', zh: '她' },
+                        { en: 'boy', zh: '男孩' }
+                    ],
+                    // Unit 2: My family
+                    [
+                        { en: 'brother', zh: '兄；弟' },
+                        { en: 'father', zh: '父亲；爸爸' },
+                        { en: 'grandfather', zh: '（外）祖父' },
+                        { en: 'grandmother', zh: '（外）祖母' },
+                        { en: 'mother', zh: '母亲；妈妈' }
+                    ],
+                    // Unit 3: At the zoo
+                    [
+                        { en: 'big', zh: '大的' },
+                        { en: 'short', zh: '矮的；短的' },
+                        { en: 'tall', zh: '高的' },
+                        { en: 'thin', zh: '瘦的' },
+                        { en: 'long', zh: '长的' }
+                    ],
+                    // Unit 4: Where is my car?
+                    [
+                        { en: 'chair', zh: '椅子' },
+                        { en: 'desk', zh: '书桌' },
+                        { en: 'in', zh: '在……里' },
+                        { en: 'on', zh: '在……上' },
+                        { en: 'under', zh: '在……下面' }
+                    ],
+                    // Unit 5: Do you like pears?
+                    [
+                        { en: 'apple', zh: '苹果' },
+                        { en: 'banana', zh: '香蕉' },
+                        { en: 'orange', zh: '橙子' },
+                        { en: 'pear', zh: '梨' },
+                        { en: 'fruit', zh: '水果' }
+                    ],
+                    // Unit 6: How many?
+                    [
+                        { en: 'eleven', zh: '十一' },
+                        { en: 'fifteen', zh: '十五' },
+                        { en: 'fourteen', zh: '十四' },
+                        { en: 'thirteen', zh: '十三' },
+                        { en: 'twelve', zh: '十二' }
+                    ]
+                ]
+            },
+            '4a': { // 四年级上册
+                name: '四年级上册',
+                units: [
+                    // Unit 1: My classroom
+                    [
+                        { en: 'blackboard', zh: '黑板' },
+                        { en: 'door', zh: '门' },
+                        { en: 'light', zh: '电灯' },
+                        { en: 'near', zh: '距离近' },
+                        { en: 'help', zh: '帮助' }
+                    ],
+                    // Unit 2: My schoolbag
+                    [
+                        { en: 'schoolbag', zh: '书包' },
+                        { en: 'wow', zh: '哇；呀' },
+                        { en: 'lost', zh: '丢失' },
+                        { en: 'toy', zh: '玩具' },
+                        { en: 'cute', zh: '可爱的' }
+                    ],
+                    // Unit 3: My friends
+                    [
+                        { en: 'her', zh: '她的' },
+                        { en: 'his', zh: '他的' },
+                        { en: 'or', zh: '或者' },
+                        { en: 'hair', zh: '头发' },
+                        { en: 'friendly', zh: '友好的' }
+                    ],
+                    // Unit 4: My home
+                    [
+                        { en: 'bed', zh: '床' },
+                        { en: 'bathroom', zh: '浴室' },
+                        { en: 'bedroom', zh: '卧室' },
+                        { en: 'kitchen', zh: '厨房' },
+                        { en: 'living room', zh: '客厅' }
+                    ],
+                    // Unit 5: Dinner's ready
+                    [
+                        { en: 'chicken', zh: '鸡肉' },
+                        { en: 'noodles', zh: '面条' },
+                        { en: 'vegetable', zh: '蔬菜' },
+                        { en: 'knife', zh: '刀' },
+                        { en: 'chopsticks', zh: '筷子' }
+                    ],
+                    // Unit 6: Meet my family!
+                    [
+                        { en: 'aunt', zh: '姑母；姨母' },
+                        { en: 'cousin', zh: '堂（表）亲' },
+                        { en: 'uncle', zh: '叔伯；舅父' },
+                        { en: 'basketball', zh: '篮球' },
+                        { en: 'cook', zh: '厨师' }
+                    ]
+                ]
+            },
+            '4b': { // 四年级下册
+                name: '四年级下册',
+                units: [
+                    // Unit 1: My school
+                    [
+                        { en: 'forty', zh: '四十' },
+                        { en: 'class', zh: '班级' },
+                        { en: 'library', zh: '图书馆' },
+                        { en: 'playground', zh: '操场' },
+                        { en: 'next to', zh: '紧邻' }
+                    ],
+                    // Unit 2: What time is it?
+                    [
+                        { en: 'thirty', zh: '三十' },
+                        { en: 'get up', zh: '起床' },
+                        { en: 'go home', zh: '回家' },
+                        { en: 'go to bed', zh: '上床睡觉' },
+                        { en: 'go to school', zh: '去上学' }
+                    ],
+                    // Unit 3: Weather
+                    [
+                        { en: 'cloudy', zh: '多云的' },
+                        { en: 'rainy', zh: '下雨的' },
+                        { en: 'snowy', zh: '下雪的' },
+                        { en: 'sunny', zh: '晴朗的' },
+                        { en: 'windy', zh: '多风的' }
+                    ],
+                    // Unit 4: At the farm
+                    [
+                        { en: 'potato', zh: '土豆' },
+                        { en: 'tomato', zh: '西红柿' },
+                        { en: 'garden', zh: '花园' },
+                        { en: 'animal', zh: '动物' },
+                        { en: 'cow', zh: '奶牛' }
+                    ],
+                    // Unit 5: My clothes
+                    [
+                        { en: 'dress', zh: '连衣裙' },
+                        { en: 'shirt', zh: '衬衫' },
+                        { en: 'shorts', zh: '短裤' },
+                        { en: 'skirt', zh: '女裙' },
+                        { en: 'coat', zh: '大衣' }
+                    ],
+                    // Unit 6: Shopping
+                    [
+                        { en: 'pretty', zh: '美观的' },
+                        { en: 'too', zh: '太；过于' },
+                        { en: 'umbrella', zh: '雨伞' },
+                        { en: 'just', zh: '正好' },
+                        { en: 'nice', zh: '好的' }
+                    ]
+                ]
+            },
+            '5a': { // 五年级上册
+                name: '五年级上册',
+                units: [
+                    // Unit 1: What's he like?
+                    [
+                        { en: 'old', zh: '老的' },
+                        { en: 'our', zh: '我们的' },
+                        { en: 'know', zh: '知道' },
+                        { en: 'clever', zh: '聪明的' },
+                        { en: 'helpful', zh: '有用的' }
+                    ],
+                    // Unit 2: My week
+                    [
+                        { en: 'do', zh: '做；干' },
+                        { en: 'park', zh: '公园' },
+                        { en: 'play football', zh: '踢足球' },
+                        { en: 'Friday', zh: '星期五' },
+                        { en: 'Monday', zh: '星期一' }
+                    ],
+                    // Unit 3: What would you like?
+                    [
+                        { en: 'tea', zh: '茶' },
+                        { en: 'thirsty', zh: '渴的' },
+                        { en: 'hot', zh: '热的' },
+                        { en: 'favourite', zh: '特别喜爱的' },
+                        { en: 'Dear', zh: '亲爱的' }
+                    ],
+                    // Unit 4: What can you do?
+                    [
+                        { en: 'want', zh: '想要' },
+                        { en: 'swim', zh: '游泳' },
+                        { en: 'at', zh: '在' },
+                        { en: 'dance', zh: '跳舞' },
+                        { en: 'party', zh: '聚会' }
+                    ],
+                    // Unit 5: There is a big bed
+                    [
+                        { en: 'there', zh: '那里' },
+                        { en: 'behind', zh: '在……后面' },
+                        { en: 'flower', zh: '花' },
+                        { en: 'water bottle', zh: '水瓶' },
+                        { en: 'dirty', zh: '肮脏的' }
+                    ],
+                    // Unit 6: In a nature park
+                    [
+                        { en: 'park', zh: '公园' },
+                        { en: 'hill', zh: '小山' },
+                        { en: 'lake', zh: '湖' },
+                        { en: 'tree', zh: '树' },
+                        { en: 'house', zh: '房子' }
+                    ]
+                ]
+            },
+            '5b': { // 五年级下册
+                name: '五年级下册',
+                units: [
+                    // Unit 1: My day
+                    [
+                        { en: 'for', zh: '为了' },
+                        { en: 'eat breakfast', zh: '吃早饭' },
+                        { en: 'eat dinner', zh: '吃晚饭' },
+                        { en: 'when', zh: '什么时候' },
+                        { en: 'play sports', zh: '做运动' }
+                    ],
+                    // Unit 2: My favourite season
+                    [
+                        { en: 'make a snowman', zh: '堆雪人' },
+                        { en: 'autumn', zh: '秋天' },
+                        { en: 'spring', zh: '春天' },
+                        { en: 'summer', zh: '夏天' },
+                        { en: 'winter', zh: '冬天' }
+                    ],
+                    // Unit 3: My school calendar
+                    [
+                        { en: 'Christmas', zh: '圣诞节' },
+                        { en: 'year', zh: '年' },
+                        { en: 'look for', zh: '寻找' },
+                        { en: 'April', zh: '四月' },
+                        { en: 'August', zh: '八月' }
+                    ],
+                    // Unit 4: When is Easter?
+                    [
+                        { en: 'first', zh: '第一' },
+                        { en: 'second', zh: '第二' },
+                        { en: 'third', zh: '第三' },
+                        { en: 'fifth', zh: '第五' },
+                        { en: 'twelfth', zh: '第十二' }
+                    ],
+                    // Unit 5: Whose dog is it?
+                    [
+                        { en: 'like', zh: '像' },
+                        { en: 'his', zh: '他的' },
+                        { en: 'excited', zh: '兴奋的' },
+                        { en: 'mine', zh: '我的' },
+                        { en: 'yours', zh: '你的' }
+                    ],
+                    // Unit 6: Work quietly
+                    [
+                        { en: 'listening to music', zh: '正在听音乐' },
+                        { en: 'teach', zh: '教' },
+                        { en: 'say', zh: '讲' },
+                        { en: 'doing morning exercises', zh: '正在做早操' },
+                        { en: 'eating lunch', zh: '正在吃午饭' }
+                    ]
+                ]
+            },
+            '6a': { // 六年级上册
+                name: '六年级上册',
+                units: [
+                    // Unit 1: How can I get there?
+                    [
+                        { en: 'hospital', zh: '医院' },
+                        { en: 'science', zh: '科学' },
+                        { en: 'interesting', zh: '有趣的' },
+                        { en: 'street', zh: '街道' },
+                        { en: 'post office', zh: '邮局' }
+                    ],
+                    // Unit 2: Ways to go to school
+                    [
+                        { en: 'plane', zh: '飞机' },
+                        { en: 'train', zh: '火车' },
+                        { en: 'wear', zh: '戴' },
+                        { en: 'on foot', zh: '步行' },
+                        { en: 'stop', zh: '停下' }
+                    ],
+                    // Unit 3: My weekend plan
+                    [
+                        { en: 'supermarket', zh: '超市' },
+                        { en: 'tomorrow', zh: '明天' },
+                        { en: 'evening', zh: '晚上' },
+                        { en: 'film', zh: '电影' },
+                        { en: 'see a film', zh: '看电影' }
+                    ],
+                    // Unit 4: I have a pen pal
+                    [
+                        { en: 'hobby', zh: '业余爱好' },
+                        { en: 'hiking', zh: '远足' },
+                        { en: 'pen pal', zh: '笔友' },
+                        { en: 'idea', zh: '主意' },
+                        { en: 'amazing', zh: '令人惊奇的' }
+                    ],
+                    // Unit 5: What does he do?
+                    [
+                        { en: 'use', zh: '使用' },
+                        { en: 'police officer', zh: '警察' },
+                        { en: 'worker', zh: '工人' },
+                        { en: 'stay', zh: '保持' },
+                        { en: 'sea', zh: '大海' }
+                    ],
+                    // Unit 6: How do you feel?
+                    [
+                        { en: 'grass', zh: '草坪' },
+                        { en: 'happy', zh: '高兴的' },
+                        { en: 'bad', zh: '坏的' },
+                        { en: 'hurt', zh: '受伤' },
+                        { en: 'should', zh: '应该' }
+                    ]
+                ]
+            },
+            '6b': { // 六年级下册
+                name: '六年级下册',
+                units: [
+                    // Unit 1: How tall are you?
+                    [
+                        { en: 'metre', zh: '米' },
+                        { en: 'smart', zh: '聪明的' },
+                        { en: 'countryside', zh: '乡村' },
+                        { en: 'heavy', zh: '重的' },
+                        { en: 'bigger', zh: '更大的' }
+                    ],
+                    // Unit 2: Last weekend
+                    [
+                        { en: 'enjoy', zh: '享受' },
+                        { en: 'before', zh: '在……之前' },
+                        { en: 'hotel', zh: '旅馆' },
+                        { en: 'stay', zh: '保持' },
+                        { en: 'slept', zh: '睡觉' }
+                    ],
+                    // Unit 3: Where did you go?
+                    [
+                        { en: 'fish', zh: '鱼' },
+                        { en: 'hurt', zh: '受伤' },
+                        { en: 'Labour Day', zh: '劳动节' },
+                        { en: 'ate', zh: '吃' },
+                        { en: 'bought', zh: '买' }
+                    ],
+                    // Unit 4: Then and now
+                    [
+                        { en: 'grass', zh: '草坪' },
+                        { en: 'dream', zh: '梦' },
+                        { en: 'star', zh: '星星' },
+                        { en: 'different', zh: '不同的' },
+                        { en: 'active', zh: '活跃的' }
+                    ]
+                ]
+            }
+        };
+
+        // 游戏状态
+        let currentGrade = '3a';
+        let currentUnit = 0;
+        let score = 0;
+        let combo = 0;
+        let matchedPairs = 0;
+        let selectedCards = [];
+        let isProcessing = false;
+        let gameStarted = false;
+
+        // DOM元素
+        const gameArea = document.getElementById('gameArea');
+        const messageEl = document.getElementById('message');
+        const scoreEl = document.getElementById('score');
+        const comboEl = document.getElementById('combo');
+        const progressTextEl = document.getElementById('progress-text');
+        const progressEl = document.getElementById('progress');
+        const startBtn = document.getElementById('startBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const gradeBtns = document.querySelectorAll('.grade-btn');
+        const unitSelector = document.getElementById('unitSelector');
+        const winModal = document.getElementById('winModal');
+        const winMessage = document.getElementById('winMessage');
+        const nextLevelBtn = document.getElementById('nextLevelBtn');
+        const starsContainer = document.getElementById('stars');
+
+        // 初始化
+        function init() {
+            updateUnitSelector();
+            setupEventListeners();
+        }
+
+        function setupEventListeners() {
+            // 年级按钮
+            gradeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    gradeBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentGrade = btn.dataset.grade;
+                    currentUnit = 0;
+                    updateUnitSelector();
+                    resetGame();
+                });
+            });
+
+            // 开始游戏
+            startBtn.addEventListener('click', startGame);
+
+            // 重新开始
+            resetBtn.addEventListener('click', resetGame);
+
+            // 下一关
+            nextLevelBtn.addEventListener('click', () => {
+                winModal.classList.remove('show');
+                currentUnit++;
+                if (currentUnit >= wordDatabase[currentGrade].units.length) {
+                    currentUnit = 0;
+                    messageEl.textContent = `恭喜完成${wordDatabase[currentGrade].name}所有单元！选择新年级继续挑战！`;
+                    return;
+                }
+                updateUnitButtons();
+                startGame();
+            });
+        }
+
+        function updateUnitSelector() {
+            const units = wordDatabase[currentGrade].units;
+            unitSelector.innerHTML = '';
+            units.forEach((_, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'unit-btn' + (index === currentUnit ? ' active' : '');
+                btn.textContent = `Unit ${index + 1}`;
+                btn.addEventListener('click', () => {
+                    currentUnit = index;
+                    updateUnitButtons();
+                    resetGame();
+                });
+                unitSelector.appendChild(btn);
+            });
+        }
+
+        function updateUnitButtons() {
+            const unitBtns = unitSelector.querySelectorAll('.unit-btn');
+            unitBtns.forEach((btn, index) => {
+                btn.classList.toggle('active', index === currentUnit);
+            });
+        }
+
+        function startGame() {
+            gameStarted = true;
+            matchedPairs = 0;
+            selectedCards = [];
+            isProcessing = false;
+            createCards();
+            updateProgress();
+            messageEl.textContent = '点击卡片开始配对吧！';
+            messageEl.className = 'message';
+        }
+
+        function resetGame() {
+            gameStarted = false;
+            score = 0;
+            combo = 0;
+            matchedPairs = 0;
+            selectedCards = [];
+            isProcessing = false;
+            updateScore();
+            gameArea.innerHTML = '';
+            progressEl.style.width = '0%';
+            progressTextEl.textContent = '0/0';
+            messageEl.textContent = '选择年级和单元，然后点击"开始游戏"！';
+            messageEl.className = 'message';
+        }
+
+        function createCards() {
+            gameArea.innerHTML = '';
+            const words = wordDatabase[currentGrade].units[currentUnit];
+
+            let cards = [];
+            words.forEach((word, index) => {
+                cards.push({
+                    id: index,
+                    content: word.en,
+                    type: 'english',
+                    matchId: index
+                });
+                cards.push({
+                    id: index + words.length,
+                    content: word.zh,
+                    type: 'chinese',
+                    matchId: index
+                });
+            });
+
+            cards = shuffleArray(cards);
+
+            cards.forEach(card => {
+                const cardEl = document.createElement('div');
+                cardEl.className = 'card';
+                cardEl.dataset.id = card.id;
+                cardEl.dataset.matchId = card.matchId;
+                cardEl.dataset.type = card.type;
+
+                const contentEl = document.createElement('div');
+                contentEl.className = `card-content card-${card.type}`;
+                contentEl.textContent = card.content;
+
+                cardEl.appendChild(contentEl);
+                cardEl.addEventListener('click', () => handleCardClick(cardEl));
+                gameArea.appendChild(cardEl);
+            });
+        }
+
+        function handleCardClick(cardEl) {
+            if (!gameStarted || isProcessing) return;
+            if (cardEl.classList.contains('matched')) return;
+            if (cardEl.classList.contains('selected')) {
+                cardEl.classList.remove('selected');
+                selectedCards = selectedCards.filter(c => c !== cardEl);
+                return;
+            }
+
+            cardEl.classList.add('selected');
+            selectedCards.push(cardEl);
+
+            if (selectedCards.length === 2) {
+                isProcessing = true;
+                checkMatch();
+            }
+        }
+
+        function checkMatch() {
+            const [card1, card2] = selectedCards;
+            const matchId1 = card1.dataset.matchId;
+            const matchId2 = card2.dataset.matchId;
+
+            if (matchId1 === matchId2) {
+                setTimeout(() => {
+                    card1.classList.remove('selected');
+                    card2.classList.remove('selected');
+                    card1.classList.add('matched');
+                    card2.classList.add('matched');
+
+                    combo++;
+                    matchedPairs++;
+                    const bonus = combo > 1 ? combo * 5 : 10;
+                    score += bonus;
+                    updateScore();
+                    updateProgress();
+                    showStars(card1);
+                    showStars(card2);
+
+                    messageEl.textContent = `太棒了！+${bonus}分${combo > 1 ? ' (连击x' + combo + ')' : ''}`;
+                    messageEl.className = 'message success';
+
+                    selectedCards = [];
+                    isProcessing = false;
+
+                    const totalPairs = wordDatabase[currentGrade].units[currentUnit].length;
+                    if (matchedPairs === totalPairs) {
+                        setTimeout(() => {
+                            showWinModal();
+                        }, 500);
+                    }
+                }, 300);
+            } else {
+                setTimeout(() => {
+                    card1.classList.add('wrong');
+                    card2.classList.add('wrong');
+                }, 300);
+
+                setTimeout(() => {
+                    card1.classList.remove('selected', 'wrong');
+                    card2.classList.remove('selected', 'wrong');
+                    selectedCards = [];
+                    combo = 0;
+                    updateScore();
+                    messageEl.textContent = '再试一次！';
+                    messageEl.className = 'message error';
+                    isProcessing = false;
+                }, 1000);
+            }
+        }
+
+        function showStars(element) {
+            const rect = element.getBoundingClientRect();
+            const colors = ['#ffd93d', '#6BCB77', '#4ECCA3', '#ff6b6b', '#667eea'];
+
+            for (let i = 0; i < 5; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.textContent = '⭐';
+                star.style.left = (rect.left + Math.random() * rect.width) + 'px';
+                star.style.top = (rect.top + Math.random() * rect.height) + 'px';
+                star.style.color = colors[Math.floor(Math.random() * colors.length)];
+                starsContainer.appendChild(star);
+
+                setTimeout(() => {
+                    star.remove();
+                }, 1000);
+            }
+        }
+
+        function showWinModal() {
+            const totalUnits = wordDatabase[currentGrade].units.length;
+            const isLastUnit = currentUnit === totalUnits - 1;
+
+            winMessage.textContent = `本单元得分: ${score}分！${isLastUnit ? '已完成全部单元！' : '继续挑战下一关！'}`;
+            winModal.classList.add('show');
+            createCelebration();
+        }
+
+        function createCelebration() {
+            const celebration = document.getElementById('celebration');
+            celebration.style.display = 'block';
+            celebration.innerHTML = '';
+
+            const colors = ['#ffd93d', '#6BCB77', '#4ECCA3', '#ff6b6b', '#667eea', '#f093fb'];
+
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                celebration.appendChild(confetti);
+            }
+
+            setTimeout(() => {
+                celebration.style.display = 'none';
+            }, 3000);
+        }
+
+        function updateScore() {
+            scoreEl.textContent = score;
+            comboEl.textContent = combo;
+        }
+
+        function updateProgress() {
+            const totalPairs = wordDatabase[currentGrade].units[currentUnit].length;
+            const progress = (matchedPairs / totalPairs) * 100;
+            progressEl.style.width = progress + '%';
+            progressTextEl.textContent = `${matchedPairs}/${totalPairs}`;
+        }
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        // 启动
+        init();
+    </script>
+</body>
+</html>

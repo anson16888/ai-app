@@ -1,0 +1,3 @@
+@echo off
+echo Starting English Word Match Game...
+start "" "%~dp0word-match-game.html"

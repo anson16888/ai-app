@@ -812,6 +812,79 @@ body {
     right: -60px;
 }
 
+/* 游戏入口样式 */
+.product-item-link {
+    cursor: pointer;
+}
+
+.product-item-link:hover .product-visual {
+    transform: scale(1.02);
+}
+
+.product-item-link .product-visual {
+    transition: transform 0.3s ease;
+}
+
+.mockup-content-game {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
+.game-cards-preview {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.mini-card {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mini-card-1 {
+    background: linear-gradient(135deg, #10a37f, #1a7f64);
+}
+
+.mini-card-2 {
+    background: linear-gradient(135deg, #cc785c, #a85a3f);
+}
+
+.mini-card-3 {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+}
+
+.mini-card-4 {
+    background: linear-gradient(135deg, #ff6b35, #f7931e);
+}
+
+.mini-card:hover {
+    transform: translateY(-4px) rotateY(180deg);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.game-play-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.game-play-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+}
+
 .product-info {
     display: flex;
     flex-direction: column;

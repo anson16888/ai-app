@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>六年级上册英语单词记忆游戏</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+        }
+
+        /* Game Mode Switcher */
+        .mode-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .mode-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .mode-btn.active {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            border-color: #22c55e;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+        }
+
+        .mode-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            height: 30px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            color: white;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* ==================== FLASHCARD MODE ==================== */
+        .flashcard-mode .card-container {
+            perspective: 1000px;
+            height: 320px;
+            margin-bottom: 20px;
+        }
+
+        .flashcard-mode .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+
+        .flashcard-mode .card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-mode .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .flashcard-mode .card-front {
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+        }
+
+        .flashcard-mode .card-back {
+            background: linear-gradient(145deg, #fef3c7, #fde68a);
+            transform: rotateY(180deg);
+        }
+
+        .word-english {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .word-phonetic {
+            font-size: 1.1rem;
+            color: #6b7280;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .word-chinese {
+            font-size: 1.8rem;
+            color: #374151;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .word-example {
+            font-size: 0.95rem;
+            color: #6b7280;
+            text-align: center;
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        .unit-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .hint-text {
+            position: absolute;
+            bottom: 15px;
+            font-size: 0.8rem;
+            color: #9ca3af;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-dont-know {
+            background: linear-gradient(135deg, #f87171, #ef4444);
+            color: white;
+        }
+
+        .btn-dont-know:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-know {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: white;
+        }
+
+        .btn-know:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+        }
+
+        .btn-restart {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            color: white;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn-small {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .btn-small:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ==================== MEMORY GAME MODE ==================== */
+        .memory-mode {
+            display: none;
+        }
+
+        .memory-mode.active {
+            display: block;
+        }
+
+        .flashcard-mode {
+            display: block;
+        }
+
+        .flashcard-mode.hidden {
+            display: none;
+        }
+
+        .memory-game-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .memory-game-header h2 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .memory-stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 0.9rem;
+        }
+
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .memory-card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+        }
+
+        .memory-card.flipped .memory-card-inner,
+        .memory-card.matched .memory-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .memory-card-front, .memory-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .memory-card-front {
+            background: linear-gradient(145deg, #667eea, #764ba2);
+            font-size: 2rem;
+        }
+
+        .memory-card-back {
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            transform: rotateY(180deg);
+        }
+
+        .memory-card.matched .memory-card-back {
+            background: linear-gradient(145deg, #dcfce7, #86efac);
+        }
+
+        .memory-card-back.english {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #1f2937;
+            line-height: 1.3;
+        }
+
+        .memory-card-back.chinese {
+            font-size: 1.2rem;
+            color: #374151;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .memory-card-back.chinese .icon {
+            font-size: 1.8rem;
+        }
+
+        .memory-card-back.chinese .text {
+            font-size: 1rem;
+        }
+
+        /* Level Complete Modal */
+        .level-complete-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .level-complete-modal.active {
+            display: flex;
+        }
+
+        .level-complete-content {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            animation: scaleIn 0.3s ease;
+        }
+
+        .level-complete-content h2 {
+            color: #22c55e;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .level-complete-content .icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .level-complete-content p {
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+
+        .level-complete-content .words-learned {
+            background: #f0fdf4;
+            padding: 15px;
+            border-radius: 15px;
+            margin: 15px 0;
+        }
+
+        .level-complete-content .words-learned div {
+            color: #374151;
+            margin: 5px 0;
+            font-size: 0.95rem;
+        }
+
+        /* Victory Screen */
+        .victory-screen {
+            display: none;
+            text-align: center;
+            color: white;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .victory-screen.active {
+            display: block;
+        }
+
+        .victory-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: bounce 1s ease infinite;
+        }
+
+        .victory-title {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .victory-stats {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .victory-stats p {
+            margin: 10px 0;
+            font-size: 1.1rem;
+        }
+
+        /* Word List Panel */
+        .word-list-panel {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .word-list-panel.active {
+            display: block;
+        }
+
+        .word-list-panel h3 {
+            color: #1f2937;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .word-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .word-item.mastered {
+            background: #dcfce7;
+        }
+
+        .word-item .en {
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .word-item .cn {
+            color: #6b7280;
+        }
+
+        .word-item .status {
+            font-size: 1.2rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes matchPulse {
+            0% { transform: rotateY(180deg) scale(1); }
+            50% { transform: rotateY(180deg) scale(1.1); }
+            100% { transform: rotateY(180deg) scale(1); }
+        }
+
+        .shake {
+            animation: shake 0.5s ease;
+        }
+
+        .memory-card.matched {
+            animation: matchPulse 0.5s ease;
+        }
+
+        /* Main content hide during victory */
+        .main-content.hidden {
+            display: none;
+        }
+
+        /* Scrollbar */
+        .word-list-panel::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .word-list-panel::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .word-list-panel::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 4px;
+        }
+
+        /* Responsive */
+        @media (max-width: 500px) {
+            .game-board {
+                gap: 8px;
+                padding: 8px;
+            }
+
+            .memory-card-back.english {
+                font-size: 0.85rem;
+            }
+
+            .memory-card-back.chinese .icon {
+                font-size: 1.4rem;
+            }
+
+            .memory-card-back.chinese .text {
+                font-size: 0.85rem;
+            }
+
+            .word-english {
+                font-size: 1.5rem;
+            }
+
+            .word-chinese {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Game Mode Switcher -->
+        <div class="mode-switcher">
+            <button class="mode-btn" id="flashcardBtn" onclick="switchMode('flashcard')">
+                📚 记忆卡片
+            </button>
+            <button class="mode-btn active" id="memoryBtn" onclick="switchMode('memory')">
+                🎮 记忆翻牌
+            </button>
+        </div>
+
+        <!-- Flashcard Mode -->
+        <div class="flashcard-mode" id="flashcardMode">
+            <div class="main-content" id="mainContent">
+                <div class="header">
+                    <h1>六年级上册英语单词记忆卡片</h1>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill">0%</div>
+                    </div>
+                </div>
+
+                <div class="stats">
+                    <div>剩余单词: <span id="remainingCount">0</span></div>
+                    <div>已掌握: <span id="masteredCount">0</span></div>
+                    <div>总单词: <span id="totalCount">0</span></div>
+                </div>
+
+                <div class="card-container">
+                    <div class="card" id="card">
+                        <div class="card-face card-front">
+                            <span class="unit-badge" id="unitBadge">Unit 1</span>
+                            <div class="word-english" id="wordEnglish">science</div>
+                            <div class="word-phonetic" id="wordPhonetic">/ˈsaɪəns/</div>
+                            <div class="hint-text">点击卡片查看中文</div>
+                        </div>
+                        <div class="card-face card-back">
+                            <div class="word-chinese" id="wordChinese">科学</div>
+                            <div class="word-example" id="wordExample">The science museum is near the school.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <button class="btn btn-dont-know" onclick="dontKnow()">不认识</button>
+                    <button class="btn btn-know" onclick="know()">认识</button>
+                </div>
+
+                <div class="controls">
+                    <button class="btn-small" onclick="toggleWordList()">查看列表</button>
+                    <button class="btn-small" onclick="resetFlashcardProgress()">重置进度</button>
+                </div>
+
+                <div class="word-list-panel" id="wordListPanel">
+                    <h3>单词列表</h3>
+                    <div id="wordList"></div>
+                </div>
+            </div>
+
+            <!-- Victory Screen -->
+            <div class="victory-screen" id="victoryScreen">
+                <div class="victory-icon">🎉</div>
+                <div class="victory-title">恭喜通关！</div>
+                <div class="victory-stats">
+                    <p>你已经掌握了所有六年级上册的英语单词！</p>
+                    <p>总单词数: <span id="finalTotal">0</span></p>
+                    <p>掌握单词: <span id="finalMastered">0</span></p>
+                    <p>正确率: <span id="accuracy">0</span>%</p>
+                </div>
+                <button class="btn btn-restart" onclick="resetFlashcardProgress()">重新开始</button>
+            </div>
+        </div>
+
+        <!-- Memory Game Mode -->
+        <div class="memory-mode" id="memoryMode">
+            <div class="memory-game-header">
+                <h2>🎴 记忆翻牌游戏</h2>
+                <div class="memory-stats">
+                    <div>关卡: <span id="currentLevel">1</span> / <span id="totalLevels">0</span></div>
+                    <div>翻牌次数: <span id="flipCount">0</span></div>
+                    <div>已配对: <span id="matchedPairs">0</span> / 8</div>
+                </div>
+            </div>
+
+            <div class="game-board" id="gameBoard"></div>
+
+            <div class="controls">
+                <button class="btn-small" onclick="restartLevel()">🔄 重新开始本关</button>
+                <button class="btn-small" onclick="resetMemoryProgress()">🗑️ 重置所有进度</button>
+            </div>
+        </div>
+
+        <!-- Level Complete Modal -->
+        <div class="level-complete-modal" id="levelCompleteModal">
+            <div class="level-complete-content">
+                <div class="icon">🎊</div>
+                <h2>恭喜过关！</h2>
+                <p>你成功配对了所有单词！</p>
+                <div class="words-learned" id="learnedWordsList"></div>
+                <button class="btn btn-next" onclick="nextLevel()">下一关 ➡️</button>
+            </div>
+        </div>
+
+        <!-- Memory Game Victory Screen -->
+        <div class="victory-screen" id="memoryVictoryScreen">
+            <div class="victory-icon">🏆</div>
+            <div class="victory-title">完美通关！</div>
+            <div class="victory-stats">
+                <p>你已经完成了所有关卡！</p>
+                <p>总关卡数: <span id="memoryTotalLevels">0</span></p>
+                <p>总翻牌次数: <span id="memoryTotalFlips">0</span></p>
+            </div>
+            <button class="btn btn-restart" onclick="resetMemoryProgress()">重新开始</button>
+        </div>
+    </div>
+
+    <script>
+        // 人教版PEP六年级上册单词表
+        const allWords = [
+            // Unit 1: How can I get there?
+            { word: "science", phonetic: "/ˈsaɪəns/", chinese: "科学", example: "The science museum is near the school.", unit: 1 },
+            { word: "museum", phonetic: "/mju(ː)ˈzɪəm/", chinese: "博物馆", example: "Where is the science museum?", unit: 1 },
+            { word: "post office", phonetic: "/pəʊst ˈɒfɪs/", chinese: "邮局", example: "I will go to the post office to send a letter.", unit: 1 },
+            { word: "bookstore", phonetic: "/ˈbʊkstɔː/", chinese: "书店", example: "I want to buy an English book in a bookstore.", unit: 1 },
+            { word: "cinema", phonetic: "/ˈsɪnəmə/", chinese: "电影院", example: "I will go to the cinema tomorrow.", unit: 1 },
+            { word: "hospital", phonetic: "/ˈhɒspɪtl/", chinese: "医院", example: "He was born in this hospital.", unit: 1 },
+            { word: "crossing", phonetic: "/ˈkrɒsɪŋ/", chinese: "十字路口", example: "You should be careful at the crossing.", unit: 1 },
+            { word: "turn", phonetic: "/tɜːn/", chinese: "转弯", example: "You should turn right at the park.", unit: 1 },
+            { word: "left", phonetic: "/left/", chinese: "左；左边", example: "You should turn left at the crossing.", unit: 1 },
+            { word: "straight", phonetic: "/streɪt/", chinese: "笔直地", example: "Turn right. Then go straight.", unit: 1 },
+            { word: "right", phonetic: "/raɪt/", chinese: "右；右边", example: "Turn right here.", unit: 1 },
+            { word: "ask", phonetic: "/ɑːsk/", chinese: "问", example: "Can I ask you some questions?", unit: 1 },
+            { word: "sir", phonetic: "/sɜː/", chinese: "先生", example: "Can I help you, sir?", unit: 1 },
+            { word: "interesting", phonetic: "/ˈɪntrɪstɪŋ/", chinese: "有趣的", example: "This book is very interesting.", unit: 1 },
+            { word: "Italian", phonetic: "/ɪˈtæliən/", chinese: "意大利的", example: "My cousin is an Italian girl.", unit: 1 },
+            { word: "restaurant", phonetic: "/ˈrestrɒnt/", chinese: "餐馆", example: "This is a new restaurant.", unit: 1 },
+            { word: "pizza", phonetic: "/ˈpiːtsə/", chinese: "比萨饼", example: "I like pizza.", unit: 1 },
+            { word: "street", phonetic: "/striːt/", chinese: "大街；街道", example: "The cinema is on Dongfang Street.", unit: 1 },
+            { word: "get", phonetic: "/get/", chinese: "到达", example: "How can I get there?", unit: 1 },
+            { word: "GPS", phonetic: "/ʤiː-piː-es/", chinese: "全球（卫星）定位系统", example: "The GPS is new.", unit: 1 },
+            { word: "gave", phonetic: "/geɪv/", chinese: "提供；交给", example: "I gave my sister a pen this morning.", unit: 1 },
+            { word: "feature", phonetic: "/ˈfiːʧə/", chinese: "特点", example: "The dog has a new feature.", unit: 1 },
+            { word: "follow", phonetic: "/ˈfɒləʊ/", chinese: "跟着", example: "Follow your mother, please.", unit: 1 },
+            { word: "far", phonetic: "/fɑː/", chinese: "远的，遥远的", example: "My home is far from the zoo.", unit: 1 },
+            { word: "tell", phonetic: "/tel/", chinese: "告诉，讲述", example: "Let me tell you my name.", unit: 1 },
+
+            // Unit 2: Ways to go to school
+            { word: "on foot", phonetic: "/ɒn fʊt/", chinese: "步行", example: "I go to school on foot.", unit: 2 },
+            { word: "by", phonetic: "/baɪ/", chinese: "乘", example: "I go to school by bus.", unit: 2 },
+            { word: "bus", phonetic: "/bʌs/", chinese: "公共汽车", example: "They go to the park by bus.", unit: 2 },
+            { word: "plane", phonetic: "/pleɪn/", chinese: "飞机", example: "We will go the USA by plane.", unit: 2 },
+            { word: "taxi", phonetic: "/ˈtæksi/", chinese: "出租汽车", example: "You can go there by taxi.", unit: 2 },
+            { word: "ship", phonetic: "/ʃɪp/", chinese: "（大）船", example: "Let's go to Shanghai by ship.", unit: 2 },
+            { word: "subway", phonetic: "/ˈsʌbweɪ/", chinese: "地铁", example: "You can go to the library by subway.", unit: 2 },
+            { word: "train", phonetic: "/treɪn/", chinese: "火车", example: "He goes to Kunming by train.", unit: 2 },
+            { word: "slow", phonetic: "/sləʊ/", chinese: "慢的", example: "The taxi driver slows down at the yellow light.", unit: 2 },
+            { word: "down", phonetic: "/daʊn/", chinese: "减少；降低", example: "The taxi driver slows down at the yellow light.", unit: 2 },
+            { word: "slow down", phonetic: "/sləʊ daʊn/", chinese: "慢下来", example: "The taxi driver slows down at the yellow light.", unit: 2 },
+            { word: "stop", phonetic: "/stɒp/", chinese: "停下来", example: "The car stops and waits at the red light.", unit: 2 },
+            { word: "Mrs", phonetic: "/ˈmɪsɪz/", chinese: "夫人", example: "Good morning, Mrs Smith!", unit: 2 },
+            { word: "early", phonetic: "/ˈɜːli/", chinese: "早到的", example: "You are early.", unit: 2 },
+            { word: "helmet", phonetic: "/ˈhelmɪt/", chinese: "头盔", example: "I have a new helmet.", unit: 2 },
+            { word: "must", phonetic: "/mʌst/", chinese: "必须", example: "In the USA people on bikes must wear a helmet.", unit: 2 },
+            { word: "wear", phonetic: "/weə/", chinese: "穿着，佩戴", example: "My sister wears a hat.", unit: 2 },
+            { word: "attention", phonetic: "/əˈtenʃ(ə)n/", chinese: "注意，注意力", example: "Let me have your attention!", unit: 2 },
+            { word: "pay attention to", phonetic: "/peɪ əˈtenʃ(ə)n tʊ/", chinese: "注意", example: "I must pay attention to the traffic lights.", unit: 2 },
+            { word: "traffic", phonetic: "/ˈtræfɪk/", chinese: "交通", example: "Traffic is busy now.", unit: 2 },
+            { word: "traffic lights", phonetic: "/ˈtræfɪk laɪts/", chinese: "交通信号灯", example: "I must pay attention to the traffic lights.", unit: 2 },
+            { word: "Munich", phonetic: "/ˈmjuːnɪk/", chinese: "慕尼黑", example: "", unit: 2 },
+            { word: "Germany", phonetic: "/ˈʤɜːməni/", chinese: "德国", example: "My uncle and aunt live in Germany.", unit: 2 },
+            { word: "Alaska", phonetic: "/əˈlæskə/", chinese: "阿拉斯加州", example: "", unit: 2 },
+            { word: "sled", phonetic: "/sled/", chinese: "雪橇", example: "Tina's sled is new.", unit: 2 },
+            { word: "fast", phonetic: "/fɑːst/", chinese: "快的；迅速的", example: "The subway is very fast.", unit: 2 },
+            { word: "ferry", phonetic: "/ˈferi/", chinese: "轮渡", example: "There is a big ferry over there.", unit: 2 },
+            { word: "Papa Westray", phonetic: "/pəˈpɑː ˈwestreɪ/", chinese: "帕帕韦斯特雷岛", example: "", unit: 2 },
+            { word: "Scotland", phonetic: "/ˈskɒtlənd/", chinese: "苏格兰", example: "", unit: 2 },
+
+            // Unit 3: My weekend plan
+            { word: "visit", phonetic: "/ˈvɪzɪt/", chinese: "拜访", example: "I often visit my grandparents on weekends.", unit: 3 },
+            { word: "film", phonetic: "/fɪlm/", chinese: "电影", example: "Let's see a film this afternoon.", unit: 3 },
+            { word: "see a film", phonetic: "/siː ə fɪlm/", chinese: "看电影", example: "Let's see a film this afternoon.", unit: 3 },
+            { word: "trip", phonetic: "/trɪp/", chinese: "旅行", example: "We want to take a trip on summer holiday.", unit: 3 },
+            { word: "take a trip", phonetic: "/teɪk ə trɪp/", chinese: "去旅行", example: "We want to take a trip on summer holiday.", unit: 3 },
+            { word: "supermarket", phonetic: "/ˈsjuːpəˌmɑːkɪt/", chinese: "超市", example: "My mother often goes to the supermarket on Sunday.", unit: 3 },
+            { word: "evening", phonetic: "/ˈiːvnɪŋ/", chinese: "晚上；傍晚", example: "I often read storybooks in the evening.", unit: 3 },
+            { word: "tonight", phonetic: "/təˈnaɪt/", chinese: "今夜；今晚", example: "There will be a basketball match tonight.", unit: 3 },
+            { word: "tomorrow", phonetic: "/təˈmɒrəʊ/", chinese: "明天", example: "My father will go fishing tomorrow.", unit: 3 },
+            { word: "next week", phonetic: "/nekst wiːk/", chinese: "下周", example: "They will go on a picnic next week.", unit: 3 },
+            { word: "dictionary", phonetic: "/ˈdɪkʃ(ə)n(ə)ri/", chinese: "词典", example: "I bought a new dictionary.", unit: 3 },
+            { word: "comic", phonetic: "/ˈkɒmɪk/", chinese: "滑稽的；喜剧的", example: "My brother is reading a comic book.", unit: 3 },
+            { word: "comic book", phonetic: "/ˈkɒmɪk bʊk/", chinese: "（儿童的）连环画册", example: "My brother is reading a comic book.", unit: 3 },
+            { word: "word", phonetic: "/wɜːd/", chinese: "单词", example: "This word book is very helpful.", unit: 3 },
+            { word: "word book", phonetic: "/wɜːd bʊk/", chinese: "单词书", example: "This word book is very helpful.", unit: 3 },
+            { word: "postcard", phonetic: "/ˈpəʊstkɑːd/", chinese: "明信片", example: "I will send him a postcard.", unit: 3 },
+            { word: "lesson", phonetic: "/ˈlesn/", chinese: "课", example: "We are going to have an English lesson.", unit: 3 },
+            { word: "space", phonetic: "/speɪs/", chinese: "太空", example: "This is a book about space.", unit: 3 },
+            { word: "travel", phonetic: "/ˈtrævl/", chinese: "旅行", example: "I like travel.", unit: 3 },
+            { word: "half", phonetic: "/hɑːf/", chinese: "一半", example: "I do my homework for half an hour every day.", unit: 3 },
+            { word: "price", phonetic: "/praɪs/", chinese: "价格", example: "The price of the bag is high.", unit: 3 },
+            { word: "Mid-Autumn Festival", phonetic: "/mɪd ˈɔːtəm ˈfestəvəl/", chinese: "中秋节", example: "Today is Mid-Autumn Festival.", unit: 3 },
+            { word: "together", phonetic: "/təˈgeðə/", chinese: "一起", example: "Let's go to school together.", unit: 3 },
+            { word: "get together", phonetic: "/get təˈgeðə/", chinese: "聚会", example: "My family is going to get together and have a big dinner.", unit: 3 },
+            { word: "mooncake", phonetic: "/ˈmuːnkeɪk/", chinese: "月饼", example: "Would you like a mooncake?", unit: 3 },
+            { word: "poem", phonetic: "/ˈpəʊɪm/", chinese: "诗", example: "I like this poem.", unit: 3 },
+            { word: "moon", phonetic: "/muːn/", chinese: "月亮；月球", example: "The moon is so bright tonight.", unit: 3 },
+
+            // Unit 4: I have a pen pal
+            { word: "studies", phonetic: "/ˈstʌdiz/", chinese: "学习", example: "He studies Chinese very carefully.", unit: 4 },
+            { word: "puzzle", phonetic: "/ˈpʌzl/", chinese: "谜；智力游戏", example: "My mother often does word puzzles with me on the weekend.", unit: 4 },
+            { word: "hiking", phonetic: "/ˈhaɪkɪŋ/", chinese: "远足", example: "She goes hiking with her friends.", unit: 4 },
+            { word: "pen pal", phonetic: "/pen pæl/", chinese: "笔友", example: "I have a new pen pal.", unit: 4 },
+            { word: "hobby", phonetic: "/ˈhɒbi/", chinese: "业余爱好", example: "My hobby is playing football.", unit: 4 },
+            { word: "jasmine", phonetic: "/ˈʤæsmɪn/", chinese: "茉莉", example: "I like jasmine.", unit: 4 },
+            { word: "idea", phonetic: "/aɪˈdɪə/", chinese: "想法；主意", example: "This is a good idea.", unit: 4 },
+            { word: "Canberra", phonetic: "/ˈkænb(ə)rə/", chinese: "堪培拉", example: "My pen pal lives in Canberra.", unit: 4 },
+            { word: "amazing", phonetic: "/əˈmeɪzɪŋ/", chinese: "令人惊奇的", example: "How amazing!", unit: 4 },
+            { word: "shall", phonetic: "/ʃæl/", chinese: "表示征求意见", example: "Shall we dance?", unit: 4 },
+            { word: "goal", phonetic: "/gəʊl/", chinese: "射门", example: "Rabbit scores ten goals.", unit: 4 },
+            { word: "join", phonetic: "/ʤɔɪn/", chinese: "加入", example: "I want to join you.", unit: 4 },
+            { word: "club", phonetic: "/klʌb/", chinese: "俱乐部；社团", example: "Please join our club.", unit: 4 },
+            { word: "share", phonetic: "/ʃeə/", chinese: "分享；共用", example: "Let's share the delicious food.", unit: 4 },
+
+            // Unit 5: What does he do?
+            { word: "factory", phonetic: "/ˈfæktəri/", chinese: "工厂", example: "My aunt works in the factory.", unit: 5 },
+            { word: "worker", phonetic: "/ˈwɜːkə/", chinese: "工人", example: "The worker works hard every day.", unit: 5 },
+            { word: "postman", phonetic: "/ˈpəʊstmən/", chinese: "邮递员", example: "The postman is very busy every day.", unit: 5 },
+            { word: "businessman", phonetic: "/ˈbɪznɪsmən/", chinese: "商人", example: "His uncle is a businessman.", unit: 5 },
+            { word: "police officer", phonetic: "/pəˈliːs ˈɒfɪsə/", chinese: "警察", example: "There is a police officer on the street.", unit: 5 },
+            { word: "fisherman", phonetic: "/ˈfɪʃəmən/", chinese: "渔民", example: "The fisherman swims very well.", unit: 5 },
+            { word: "scientist", phonetic: "/ˈsaɪəntɪst/", chinese: "科学家", example: "The scientist knows much about the sun.", unit: 5 },
+            { word: "pilot", phonetic: "/ˈpaɪlət/", chinese: "飞行员", example: "Miss Brown is a pilot.", unit: 5 },
+            { word: "coach", phonetic: "/kəʊʧ/", chinese: "教练", example: "The coach is very strict with us.", unit: 5 },
+            { word: "country", phonetic: "/ˈkʌntri/", chinese: "国家", example: "Which country do you live in?", unit: 5 },
+            { word: "head teacher", phonetic: "/hed ˈtiːʧə/", chinese: "校长", example: "Ann's mother is our head teacher.", unit: 5 },
+            { word: "sea", phonetic: "/siː/", chinese: "大海", example: "I like swimming in the sea.", unit: 5 },
+            { word: "stay", phonetic: "/steɪ/", chinese: "保持", example: "I want to stay healthy.", unit: 5 },
+            { word: "university", phonetic: "/ˌjuːnɪˈvɜːsɪti/", chinese: "大学", example: "He is a university student.", unit: 5 },
+            { word: "gym", phonetic: "/ʤɪm/", chinese: "体育馆，健身房", example: "The gym is very big.", unit: 5 },
+            { word: "if", phonetic: "/ɪf/", chinese: "如果", example: "If you like sports, you can be a coach.", unit: 5 },
+            { word: "reporter", phonetic: "/rɪˈpɔːtə/", chinese: "记者", example: "Uncle Li is a reporter.", unit: 5 },
+            { word: "use", phonetic: "/juːz/", chinese: "使用", example: "May I use your pen?", unit: 5 },
+            { word: "type", phonetic: "/taɪp/", chinese: "打字", example: "Can you type?", unit: 5 },
+            { word: "quickly", phonetic: "/ˈkwɪkli/", chinese: "迅速地", example: "Jim can run quickly.", unit: 5 },
+            { word: "secretary", phonetic: "/ˈsekrətri/", chinese: "秘书", example: "Amy's cousin is a secretary.", unit: 5 },
+
+            // Unit 6: How do you feel?
+            { word: "angry", phonetic: "/ˈæŋgri/", chinese: "生气的", example: "Don't get angry with the little boy.", unit: 6 },
+            { word: "afraid", phonetic: "/əˈfreɪd/", chinese: "害怕", example: "The monkey is afraid of the dinosaur.", unit: 6 },
+            { word: "sad", phonetic: "/sæd/", chinese: "难过的", example: "The boy is very sad.", unit: 6 },
+            { word: "worried", phonetic: "/ˈwʌrid/", chinese: "担心的；发愁的", example: "Don't be worried about the monkey.", unit: 6 },
+            { word: "happy", phonetic: "/ˈhæpi/", chinese: "高兴的；快乐的", example: "The bear looks very happy.", unit: 6 },
+            { word: "see a doctor", phonetic: "/siː ə ˈdɒktə/", chinese: "看病", example: "He will see a doctor tomorrow.", unit: 6 },
+            { word: "wear", phonetic: "/weə/", chinese: "穿；戴", example: "I always wear warm clothes on cold days.", unit: 6 },
+            { word: "more", phonetic: "/mɔː/", chinese: "更多的", example: "You should do more exercise.", unit: 6 },
+            { word: "deep", phonetic: "/diːp/", chinese: "深的", example: "Please take a deep breath.", unit: 6 },
+            { word: "breath", phonetic: "/breθ/", chinese: "呼吸", example: "Please take a deep breath.", unit: 6 },
+            { word: "take a deep breath", phonetic: "/teɪk ə diːp breθ/", chinese: "深深吸一口气", example: "If you are angry, you can take a deep breath.", unit: 6 },
+            { word: "count", phonetic: "/kaʊnt/", chinese: "数数", example: "My little sister can count to ten.", unit: 6 },
+            { word: "count to ten", phonetic: "/kaʊnt tə ten/", chinese: "数到十", example: "My little sister can count to ten.", unit: 6 },
+            { word: "chase", phonetic: "/ʧeɪs/", chinese: "追赶", example: "The cat is chasing a mouse.", unit: 6 },
+            { word: "mice", phonetic: "/maɪs/", chinese: "老鼠", example: "There are two mice over there.", unit: 6 },
+            { word: "bad", phonetic: "/bæd/", chinese: "邪恶的；坏的", example: "Is the dog bad?", unit: 6 },
+            { word: "hurt", phonetic: "/hɜːt/", chinese: "（使）受伤", example: "Please don't hurt the little cat.", unit: 6 },
+            { word: "ill", phonetic: "/ɪl/", chinese: "有病；不舒服", example: "My grandpa is ill.", unit: 6 },
+            { word: "wrong", phonetic: "/rɒŋ/", chinese: "有毛病；不好的", example: "I have something wrong with my legs.", unit: 6 },
+            { word: "should", phonetic: "/ʃʊd/", chinese: "应当", example: "He should see a doctor this morning.", unit: 6 },
+            { word: "feel", phonetic: "/fiːl/", chinese: "感觉；觉得", example: "How do you feel?", unit: 6 },
+            { word: "well", phonetic: "/wel/", chinese: "健康；身体好", example: "You look well.", unit: 6 },
+            { word: "sit", phonetic: "/sɪt/", chinese: "坐", example: "Sit on this sofa, please.", unit: 6 },
+            { word: "grass", phonetic: "/grɑːs/", chinese: "草坪", example: "There is a dog on the grass.", unit: 6 },
+            { word: "hear", phonetic: "/hɪə/", chinese: "听见", example: "What can you hear?", unit: 6 },
+            { word: "ant", phonetic: "/ænt/", chinese: "蚂蚁", example: "This is a little ant.", unit: 6 },
+            { word: "worry", phonetic: "/ˈwʌri/", chinese: "担心；担忧", example: "Don't worry about me.", unit: 6 },
+            { word: "stuck", phonetic: "/stʌk/", chinese: "陷住；无法移动", example: "The car is stuck.", unit: 6 },
+            { word: "mud", phonetic: "/mʌd/", chinese: "泥", example: "There is a dog in the mud.", unit: 6 },
+            { word: "pull", phonetic: "/pʊl/", chinese: "拉；拽", example: "Pull the door, please.", unit: 6 },
+            { word: "everyone", phonetic: "/ˈevrɪwʌn/", chinese: "每人；人人", example: "Everyone is here.", unit: 6 }
+        ];
+
+        // ==================== GAME MODE SWITCHING ====================
+        let currentMode = 'memory';
+
+        function switchMode(mode) {
+            currentMode = mode;
+            const flashcardBtn = document.getElementById('flashcardBtn');
+            const memoryBtn = document.getElementById('memoryBtn');
+            const flashcardMode = document.getElementById('flashcardMode');
+            const memoryMode = document.getElementById('memoryMode');
+
+            if (mode === 'flashcard') {
+                flashcardBtn.classList.add('active');
+                memoryBtn.classList.remove('active');
+                flashcardMode.classList.remove('hidden');
+                memoryMode.classList.remove('active');
+            } else {
+                flashcardBtn.classList.remove('active');
+                memoryBtn.classList.add('active');
+                flashcardMode.classList.add('hidden');
+                memoryMode.classList.add('active');
+                initMemoryGame();
+            }
+        }
+
+        // ==================== FLASHCARD MODE ====================
+        let remainingWords = [];
+        let masteredWords = [];
+        let currentWord = null;
+        let totalAttempts = 0;
+
+        function loadProgress() {
+            const saved = localStorage.getItem('sixUpProgress');
+            if (saved) {
+                const data = JSON.parse(saved);
+                masteredWords = data.masteredWords || [];
+                totalAttempts = data.totalAttempts || 0;
+            }
+            remainingWords = allWords.filter(w => !masteredWords.includes(w.word));
+            if (remainingWords.length === 0 && masteredWords.length > 0) {
+                showVictory();
+            } else {
+                shuffleArray(remainingWords);
+                showNextWord();
+            }
+            updateStats();
+        }
+
+        function saveProgress() {
+            localStorage.setItem('sixUpProgress', JSON.stringify({
+                masteredWords: masteredWords,
+                totalAttempts: totalAttempts
+            }));
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function showNextWord() {
+            if (remainingWords.length === 0) {
+                showVictory();
+                return;
+            }
+
+            currentWord = remainingWords[0];
+            document.getElementById('wordEnglish').textContent = currentWord.word;
+            document.getElementById('wordPhonetic').textContent = currentWord.phonetic;
+            document.getElementById('wordChinese').textContent = currentWord.chinese;
+            document.getElementById('wordExample').textContent = currentWord.example || '';
+            document.getElementById('unitBadge').textContent = `Unit ${currentWord.unit}`;
+            document.getElementById('card').classList.remove('flipped');
+        }
+
+        document.getElementById('card').addEventListener('click', function() {
+            this.classList.toggle('flipped');
+        });
+
+        function know() {
+            if (!currentWord) return;
+            totalAttempts++;
+            masteredWords.push(currentWord.word);
+            remainingWords.shift();
+            saveProgress();
+            updateStats();
+            showNextWord();
+        }
+
+        function dontKnow() {
+            if (!currentWord) return;
+            totalAttempts++;
+            const word = remainingWords.shift();
+            remainingWords.push(word);
+            const card = document.getElementById('card');
+            card.classList.add('shake');
+            setTimeout(() => card.classList.remove('shake'), 500);
+            saveProgress();
+            updateStats();
+            showNextWord();
+        }
+
+        function updateStats() {
+            const total = allWords.length;
+            const mastered = masteredWords.length;
+            const remaining = remainingWords.length;
+            const progress = Math.round((mastered / total) * 100);
+
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressFill').textContent = progress + '%';
+            document.getElementById('remainingCount').textContent = remaining;
+            document.getElementById('masteredCount').textContent = mastered;
+            document.getElementById('totalCount').textContent = total;
+        }
+
+        function showVictory() {
+            document.getElementById('mainContent').classList.add('hidden');
+            document.getElementById('victoryScreen').classList.add('active');
+            document.getElementById('finalTotal').textContent = allWords.length;
+            document.getElementById('finalMastered').textContent = masteredWords.length;
+            const accuracy = Math.round((masteredWords.length / Math.max(totalAttempts, 1)) * 100);
+            document.getElementById('accuracy').textContent = Math.min(accuracy, 100);
+        }
+
+        function resetFlashcardProgress() {
+            if (confirm('确定要重置学习进度吗？')) {
+                localStorage.removeItem('sixUpProgress');
+                masteredWords = [];
+                totalAttempts = 0;
+                remainingWords = [...allWords];
+                shuffleArray(remainingWords);
+                document.getElementById('mainContent').classList.remove('hidden');
+                document.getElementById('victoryScreen').classList.remove('active');
+                showNextWord();
+                updateStats();
+                updateWordList();
+            }
+        }
+
+        function toggleWordList() {
+            const panel = document.getElementById('wordListPanel');
+            panel.classList.toggle('active');
+            if (panel.classList.contains('active')) {
+                updateWordList();
+            }
+        }
+
+        function updateWordList() {
+            const list = document.getElementById('wordList');
+            list.innerHTML = '';
+            allWords.forEach(w => {
+                const item = document.createElement('div');
+                item.className = 'word-item';
+                if (masteredWords.includes(w.word)) {
+                    item.classList.add('mastered');
+                }
+                item.innerHTML = `
+                    <div>
+                        <span class="en">${w.word}</span>
+                        <span class="cn"> - ${w.chinese}</span>
+                    </div>
+                    <span class="status">${masteredWords.includes(w.word) ? '✅' : '⬜'}</span>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        // ==================== MEMORY GAME MODE ====================
+        let memoryState = {
+            levels: [],
+            currentLevel: 0,
+            wordsPerLevel: 8,
+            flipCount: 0,
+            totalFlips: 0,
+            flippedCards: [],
+            matchedPairs: 0,
+            locked: false
+        };
+
+        // 音效系统
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            switch (type) {
+                case 'flip':
+                    // 翻牌音效 - 轻快的"嗖"声
+                    oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(800, audioContext.currentTime + 0.1);
+                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.1);
+                    break;
+
+                case 'match':
+                    // 配对成功 - 欢快的"叮"声
+                    oscillator.frequency.setValueAtTime(523, audioContext.currentTime); // C5
+                    oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.1); // E5
+                    oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.2); // G5
+                    gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.4);
+                    break;
+
+                case 'wrong':
+                    // 配对失败 - 低沉的"嗡"声
+                    oscillator.type = 'sawtooth';
+                    oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(100, audioContext.currentTime + 0.2);
+                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.3);
+                    break;
+
+                case 'levelComplete':
+                    // 过关音效 - 胜利旋律
+                    const notes = [523, 659, 784, 1047]; // C5, E5, G5, C6
+                    notes.forEach((freq, i) => {
+                        const osc = audioContext.createOscillator();
+                        const gain = audioContext.createGain();
+                        osc.connect(gain);
+                        gain.connect(audioContext.destination);
+                        osc.frequency.value = freq;
+                        gain.gain.setValueAtTime(0.1, audioContext.currentTime + i * 0.15);
+                        gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + i * 0.15 + 0.3);
+                        osc.start(audioContext.currentTime + i * 0.15);
+                        osc.stop(audioContext.currentTime + i * 0.15 + 0.3);
+                    });
+                    break;
+
+                case 'victory':
+                    // 通关音效 - 华丽旋律
+                    const victoryNotes = [523, 659, 784, 1047, 784, 1047, 1319];
+                    victoryNotes.forEach((freq, i) => {
+                        const osc = audioContext.createOscillator();
+                        const gain = audioContext.createGain();
+                        osc.connect(gain);
+                        gain.connect(audioContext.destination);
+                        osc.frequency.value = freq;
+                        gain.gain.setValueAtTime(0.1, audioContext.currentTime + i * 0.12);
+                        gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + i * 0.12 + 0.25);
+                        osc.start(audioContext.currentTime + i * 0.12);
+                        osc.stop(audioContext.currentTime + i * 0.12 + 0.25);
+                    });
+                    break;
+            }
+        }
+
+        function initMemoryGame() {
+            // 恢复音频上下文（浏览器需要用户交互才能播放声音）
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+
+            // Load or initialize memory game state
+            const saved = localStorage.getItem('memoryGameProgress');
+            if (saved) {
+                const data = JSON.parse(saved);
+                memoryState.currentLevel = data.currentLevel || 0;
+                memoryState.totalFlips = data.totalFlips || 0;
+            }
+
+            // Create levels from words (8 words per level = 16 cards)
+            const shuffledWords = [...allWords];
+            shuffleArray(shuffledWords);
+            memoryState.levels = [];
+            for (let i = 0; i < shuffledWords.length; i += memoryState.wordsPerLevel) {
+                memoryState.levels.push(shuffledWords.slice(i, i + memoryState.wordsPerLevel));
+            }
+
+            // Check if game is complete
+            if (memoryState.currentLevel >= memoryState.levels.length) {
+                showMemoryVictory();
+            } else {
+                startLevel(memoryState.currentLevel);
+            }
+        }
+
+        function startLevel(levelIndex) {
+            memoryState.currentLevel = levelIndex;
+            memoryState.flipCount = 0;
+            memoryState.matchedPairs = 0;
+            memoryState.flippedCards = [];
+            memoryState.locked = false;
+
+            const words = memoryState.levels[levelIndex];
+            createGameBoard(words);
+            updateMemoryStats();
+        }
+
+        // 为中文释义添加对应的图标
+        function getIconForWord(word) {
+            const iconMap = {
+                // Unit 1 - 地点方位
+                '科学': '🔬', '博物馆': '🏛️', '邮局': '📮', '书店': '📚',
+                '电影院': '🎬', '医院': '🏥', '十字路口': '🚦', '转弯': '↪️',
+                '左；左边': '⬅️', '笔直地': '⬆️', '右；右边': '➡️', '问': '❓',
+                '先生': '👨', '有趣的': '😄', '意大利的': '🇮🇹', '餐馆': '🍽️',
+                '比萨饼': '🍕', '大街；街道': '🛣️', '到达': '📍', '全球（卫星）定位系统': '🛰️',
+                '提供；交给': '🤲', '特点': '⭐', '跟着': '👣', '远的，遥远的': '🌍',
+                '告诉，讲述': '💬',
+                // Unit 2 - 交通方式
+                '步行': '🚶', '乘': '🚌', '公共汽车': '🚌', '飞机': '✈️',
+                '出租汽车': '🚕', '（大）船': '🚢', '地铁': '🚇', '火车': '🚆',
+                '慢的': '🐌', '减少；降低': '⬇️', '慢下来': '🐌', '停下来': '🛑',
+                '夫人': '👩', '早到的': '⏰', '头盔': '⛑️', '必须': '❗',
+                '穿着，佩戴': '👕', '注意，注意力': '👀', '注意': '⚠️', '交通': '🚦',
+                '交通信号灯': '🚥', '慕尼黑': '🏰', '德国': '🇩🇪', '阿拉斯加州': '🏔️',
+                '雪橇': '🛷', '快的；迅速的': '⚡', '轮渡': '⛴️', '帕帕韦斯特雷岛': '🏝️',
+                '苏格兰': '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+                // Unit 3 - 周末计划
+                '拜访': '🚪', '电影': '🎥', '看电影': '🍿', '旅行': '✈️',
+                '去旅行': '🧳', '超市': '🛒', '晚上；傍晚': '🌆', '今夜；今晚': '🌙',
+                '明天': '📅', '下周': '📆', '词典': '📖', '滑稽的；喜剧的': '😂',
+                '（儿童的）连环画册': '📕', '单词': '🔤', '单词书': '📔', '明信片': '💌',
+                '课': '📝', '太空': '🌌', '一半': '½', '价格': '💰',
+                '中秋节': '🥮', '一起': '👫', '聚会': '🎉', '月饼': '🥮',
+                '诗': '📜', '月亮；月球': '🌕',
+                // Unit 4 - 笔友爱好
+                '学习': '📖', '谜；智力游戏': '🧩', '远足': '🥾', '笔友': '✉️',
+                '业余爱好': '🎨', '茉莉': '🌼', '想法；主意': '💡', '堪培拉': '🏙️',
+                '令人惊奇的': '😲', '表示征求意见': '🤔', '射门': '⚽', '加入': '🤝',
+                '俱乐部；社团': '🏢', '分享；共用': '🤲',
+                // Unit 5 - 职业
+                '工厂': '🏭', '工人': '👷', '邮递员': '📬', '商人': '💼',
+                '警察': '👮', '渔民': '🎣', '科学家': '👨‍🔬', '飞行员': '✈️',
+                '教练': '📋', '国家': '🏳️', '校长': '👨‍🏫', '大海': '🌊',
+                '保持': '💪', '大学': '🎓', '体育馆，健身房': '🏋️', '如果': '❓',
+                '记者': '📰', '使用': '🖱️', '打字': '⌨️', '迅速地': '⚡',
+                '秘书': '💁',
+                // Unit 6 - 情感感觉
+                '生气的': '😠', '害怕': '😨', '难过的': '😢', '担心的；发愁的': '😟',
+                '高兴的；快乐的': '😊', '看病': '👨‍⚕️', '穿；戴': '👔', '更多的': '➕',
+                '深的': '⬇️', '呼吸': '😮', '深深吸一口气': '😤', '数数': '🔢',
+                '数到十': '🔟', '追赶': '🏃', '老鼠': '🐭', '邪恶的；坏的': '😈',
+                '（使）受伤': '🤕', '有病；不舒服': '🤒', '有毛病；不好的': '⚠️',
+                '应当': '✅', '感觉；觉得': '🤔', '健康；身体好': '💪', '坐': '🪑',
+                '草坪': '🌿', '听见': '👂', '蚂蚁': '🐜', '担心；担忧': '😰',
+                '陷住；无法移动': '🚧', '泥': '💩', '拉；拽': '💪', '每人；人人': '👥'
+            };
+            return iconMap[word] || '📝';
+        }
+
+        function createGameBoard(words) {
+            const board = document.getElementById('gameBoard');
+            board.innerHTML = '';
+
+            // Create cards: 8 English + 8 Chinese
+            let cards = [];
+            words.forEach((word, index) => {
+                cards.push({ id: index, type: 'english', text: word.word, pairId: index });
+                cards.push({ id: index + 100, type: 'chinese', text: word.chinese, pairId: index });
+            });
+            shuffleArray(cards);
+
+            cards.forEach((card, index) => {
+                const cardEl = document.createElement('div');
+                cardEl.className = 'memory-card';
+                cardEl.dataset.index = index;
+                cardEl.dataset.pairId = card.pairId;
+
+                // 为中文卡片添加图标
+                let cardContent = card.text;
+                if (card.type === 'chinese') {
+                    const icon = getIconForWord(card.text);
+                    cardContent = `<span class="icon">${icon}</span><span class="text">${card.text}</span>`;
+                }
+
+                cardEl.innerHTML = `
+                    <div class="memory-card-inner">
+                        <div class="memory-card-front">?</div>
+                        <div class="memory-card-back ${card.type}">${cardContent}</div>
+                    </div>
+                `;
+
+                cardEl.addEventListener('click', () => flipCard(cardEl, card.pairId));
+                board.appendChild(cardEl);
+            });
+        }
+
+        function flipCard(cardEl, pairId) {
+            if (memoryState.locked) return;
+            if (cardEl.classList.contains('flipped') || cardEl.classList.contains('matched')) return;
+
+            // 播放翻牌音效
+            playSound('flip');
+
+            // Flip the card
+            cardEl.classList.add('flipped');
+            memoryState.flippedCards.push({ element: cardEl, pairId: pairId });
+            memoryState.flipCount++;
+            memoryState.totalFlips++;
+            updateMemoryStats();
+
+            // Check if two cards are flipped
+            if (memoryState.flippedCards.length === 2) {
+                memoryState.locked = true;
+                checkMatch();
+            }
+        }
+
+        function checkMatch() {
+            const [card1, card2] = memoryState.flippedCards;
+
+            if (card1.pairId === card2.pairId) {
+                // Match found - 播放配对成功音效
+                setTimeout(() => {
+                    playSound('match');
+                    card1.element.classList.add('matched');
+                    card2.element.classList.add('matched');
+                    memoryState.matchedPairs++;
+                    memoryState.flippedCards = [];
+                    memoryState.locked = false;
+                    updateMemoryStats();
+
+                    // Check if level complete
+                    if (memoryState.matchedPairs === memoryState.wordsPerLevel) {
+                        setTimeout(showLevelComplete, 500);
+                    }
+                }, 500);
+            } else {
+                // No match - 播放配对失败音效
+                setTimeout(() => {
+                    playSound('wrong');
+                    card1.element.classList.remove('flipped');
+                    card2.element.classList.remove('flipped');
+                    memoryState.flippedCards = [];
+                    memoryState.locked = false;
+                }, 1000);
+            }
+        }
+
+        function updateMemoryStats() {
+            const totalLevels = memoryState.levels.length;
+            document.getElementById('currentLevel').textContent = memoryState.currentLevel + 1;
+            document.getElementById('totalLevels').textContent = totalLevels;
+            document.getElementById('flipCount').textContent = memoryState.flipCount;
+            document.getElementById('matchedPairs').textContent = memoryState.matchedPairs;
+        }
+
+        function showLevelComplete() {
+            // 播放过关音效
+            playSound('levelComplete');
+
+            const words = memoryState.levels[memoryState.currentLevel];
+            const listEl = document.getElementById('learnedWordsList');
+            listEl.innerHTML = '<p>本关学习的单词:</p>';
+            words.forEach(w => {
+                const div = document.createElement('div');
+                div.textContent = `${w.word} - ${w.chinese}`;
+                listEl.appendChild(div);
+            });
+
+            document.getElementById('levelCompleteModal').classList.add('active');
+            saveMemoryProgress();
+        }
+
+        function nextLevel() {
+            document.getElementById('levelCompleteModal').classList.remove('active');
+            memoryState.currentLevel++;
+
+            if (memoryState.currentLevel >= memoryState.levels.length) {
+                showMemoryVictory();
+            } else {
+                startLevel(memoryState.currentLevel);
+                saveMemoryProgress();
+            }
+        }
+
+        function restartLevel() {
+            startLevel(memoryState.currentLevel);
+        }
+
+        function showMemoryVictory() {
+            // 播放通关音效
+            playSound('victory');
+
+            document.getElementById('memoryMode').style.display = 'none';
+            document.getElementById('memoryVictoryScreen').classList.add('active');
+            document.getElementById('memoryTotalLevels').textContent = memoryState.levels.length;
+            document.getElementById('memoryTotalFlips').textContent = memoryState.totalFlips;
+        }
+
+        function resetMemoryProgress() {
+            if (confirm('确定要重置记忆翻牌游戏的进度吗？')) {
+                localStorage.removeItem('memoryGameProgress');
+                memoryState = {
+                    levels: [],
+                    currentLevel: 0,
+                    wordsPerLevel: 8,
+                    flipCount: 0,
+                    totalFlips: 0,
+                    flippedCards: [],
+                    matchedPairs: 0,
+                    locked: false
+                };
+                document.getElementById('memoryVictoryScreen').classList.remove('active');
+                document.getElementById('memoryMode').style.display = '';
+                initMemoryGame();
+            }
+        }
+
+        function saveMemoryProgress() {
+            localStorage.setItem('memoryGameProgress', JSON.stringify({
+                currentLevel: memoryState.currentLevel,
+                totalFlips: memoryState.totalFlips
+            }));
+        }
+
+        // Initialize memory game mode on load
+        // 先设置正确的显示状态
+        document.getElementById('flashcardMode').classList.add('hidden');
+        document.getElementById('memoryMode').classList.add('active');
+        initMemoryGame();
+
+        // 同时初始化闪卡模式的进度（但不显示）
+        const flashcardSaved = localStorage.getItem('sixUpProgress');
+        if (flashcardSaved) {
+            const data = JSON.parse(flashcardSaved);
+            masteredWords = data.masteredWords || [];
+            totalAttempts = data.totalAttempts || 0;
+        }
+        remainingWords = allWords.filter(w => !masteredWords.includes(w.word));
+        shuffleArray(remainingWords);
+    </script>
+</body>
+</html>
